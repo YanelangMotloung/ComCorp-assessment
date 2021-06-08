@@ -1,0 +1,2 @@
+﻿ERROR [1] ComCorpAssessment.Models.FileHandler..ctor - Empty path name is not legal.
+ERROR [1] ComCorpAssessment.Controllers.FileController..ctor - Empty path name is not legal.

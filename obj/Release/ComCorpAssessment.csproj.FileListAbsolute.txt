@@ -1,0 +1,13 @@
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\ComCorpAssessment.exe.config
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\ComCorpAssessment.exe
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\ComCorpAssessment.pdb
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\log4net.dll
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\log4net.xml
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.csprojAssemblyReference.cache
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.MainWindow.resources
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.Properties.Resources.resources
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.csproj.GenerateResource.cache
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.csproj.CopyComplete
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.exe
+C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.pdb

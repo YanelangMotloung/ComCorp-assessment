@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using log4net;
 
 namespace ComCorpAssessment.Configs
@@ -30,13 +32,15 @@ namespace ComCorpAssessment.Configs
 
             try
             {
-                for( int i=0; i<stringList.Length; i++)
+                for (int i = 0; i < stringList.Length; i++)
                 {
                     string[] _words = stringList[i].Split(' ');
 
                     List<string> wordsList = _words.ToList();
                     _response.AddRange(wordsList);
                 }
+
+
                 //Trimming each words
                 for (int i = 0; i < _response.Count; i++)
                 {
@@ -69,24 +73,20 @@ namespace ComCorpAssessment.Configs
         {
             Dictionary<string, int> response = new Dictionary<string, int>();
             int wordCount = 0;
+
             try
             {
-                Task _task = new Task(() =>
+                Parallel.For(0, wordsList.Count, x =>
                 {
-                    for(int i=0; i<wordsList.Count; i++)
+                    Task.Run(() =>
                     {
-
-                        wordCount = wordsList.Where(x => x.Equals(wordsList[i])).Count();
-
-                        if (!response.ContainsKey(wordsList[i]))
+                        wordCount = wordsList.Where(v => v.Equals(wordsList[x])).Count();
+                        if (!response.ContainsKey(wordsList[x]))
                         {
-                            response.Add(wordsList[i], wordCount);
+                            response.Add(wordsList[x], wordCount);
                         }
-                    }
+                    });
                 });
-
-                _task.Start();
-                _task.Wait(120000);
             }
             catch (Exception ex)
             {

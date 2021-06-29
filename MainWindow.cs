@@ -16,6 +16,7 @@ namespace ComCorpAssessment
     public partial class MainWindow : Form
     {
         string _filePath = string.Empty;
+        int _linesCount { get; set; }
         FileController _file { get; set; }
         Stopwatch _watch = new Stopwatch();
         Stopwatch _firstFitywatch = new Stopwatch();
@@ -79,23 +80,39 @@ namespace ComCorpAssessment
         {
             //NB// This is just for Displaying on the user side, no PROCESSING
             string content = File.ReadAllText(aPath);
+            _linesCount = content.Length;
             richTextBox1.Text = content;
         }
 
-        private void btnProcess(object sender, EventArgs e)
+        private async void btnProcess(object sender, EventArgs e)
         {
+            
+
+                //await Task.Run(() =>
+                //{
+                //    for (var i = 0; i <= 1000000; i++)
+                //    {
+                //        UpdateUI(i);
+                //        count = i;
+                //    }
+                //});
+            
             string _firstFiftyword = string.Empty;
             string _firstFiftywordAbove = string.Empty;
+            Dictionary<string, int> _words = new Dictionary<string, int>(); 
 
             try
             {
                 if (!string.IsNullOrEmpty(_filePath))
                 {
-                    _file = new FileController(_filePath);
+                    _file = new FileController(_filePath,_linesCount);
 
                     _watch.Start();
+                    await Task.Run(() =>
+                    {
+                        _words = _file.CountWords(_file._words);
 
-                    var _words = _file.CountWords(_file._words);
+                    });
 
                     _watch.Stop();
 
@@ -104,21 +121,26 @@ namespace ComCorpAssessment
 
 
 
-
+                    
                     //Getting the top 50
                     _firstFitywatch.Start();
-                    var _firstFifty = _file.GetSpecifiedNumberOfbjects(_words, 50);
+                    await Task.Run(() =>
+                    {
+                        var _firstFifty = _file.GetSpecifiedNumberOfbjects(_words, 50);
+                        foreach (var item in _firstFifty)
+                        {
+                            _firstFiftyword += item + "\n";
+                        }
+
+                    });
+                    richTextBox2.Text = _firstFiftyword;
 
                     _firstFitywatch.Stop();
 
                     label5.Show();
                     label6.Text = "" + _firstFitywatch.ElapsedMilliseconds + " ms";
 
-                    foreach (var item in _firstFifty)
-                    {
-                        _firstFiftyword += item + "\n";
-                    }
-                    richTextBox2.Text = _firstFiftyword;
+                    
 
 
 
@@ -128,16 +150,22 @@ namespace ComCorpAssessment
 
                     //getting top 50 above the lenght of 6
                     _firstFiftyAbovewatch.Start();
-                    var _fisrtFityAboveSix = _file.GetSpecifiedNumberOfbjects(_words, 50, 6);
+
+                    await Task.Run(() =>
+                    {
+                        var _fisrtFityAboveSix = _file.GetSpecifiedNumberOfbjects(_words, 50, 6);
+                        foreach (var item in _fisrtFityAboveSix)
+                        {
+                            _firstFiftywordAbove += item + "\n";
+                        }
+
+                    }); 
 
                     _firstFiftyAbovewatch.Stop();
                     label7.Show();
                     label8.Text = "" + _firstFiftyAbovewatch.ElapsedMilliseconds + " ms";
 
-                    foreach (var item in _fisrtFityAboveSix)
-                    {
-                        _firstFiftywordAbove += item + "\n";
-                    }
+                    
                     richTextBox3.Text = _firstFiftywordAbove;
                 }
                 else

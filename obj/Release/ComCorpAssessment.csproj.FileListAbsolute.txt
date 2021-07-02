@@ -3,7 +3,6 @@ C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\ComCorp
 C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\ComCorpAssessment.pdb
 C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\log4net.dll
 C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\bin\Release\log4net.xml
-C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.csprojAssemblyReference.cache
 C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.MainWindow.resources
 C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.Properties.Resources.resources
 C:\Users\DELL\Documents\Work\Projects\2020\ComCorpAssessment\obj\Release\ComCorpAssessment.csproj.GenerateResource.cache

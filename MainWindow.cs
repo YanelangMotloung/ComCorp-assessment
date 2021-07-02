@@ -1,5 +1,4 @@
-﻿using ComCorpAssessment.Controllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,10 +15,9 @@ namespace ComCorpAssessment
     public partial class MainWindow : Form
     {
         string _filePath = string.Empty;
-        FileController _file { get; set; }
         Stopwatch _watch = new Stopwatch();
-        Stopwatch _firstFitywatch = new Stopwatch();
-        Stopwatch _firstFiftyAbovewatch = new Stopwatch();
+        DataProcessor _textProcessor = new TextProcessor();
+
 
         public MainWindow()
         {
@@ -28,22 +26,19 @@ namespace ComCorpAssessment
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            label6.Text = "";
-            label8.Text = "";
+            lblTime.Text = "";
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
+       
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
             richTextBox1.Text = "";
-            richTextBox2.Text = "";
-            richTextBox3.Text = "";
+            rTxtWords.Text = "";
+            lblTime.Text = "";
+            txtWordsCount.Text = "";
+            txtWordsLength.Text = "";
 
+            string fileContent = string.Empty;
             try
             {
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -84,71 +79,63 @@ namespace ComCorpAssessment
 
         private async void btnProcess(object sender, EventArgs e)
         {
-            
-            string _firstFiftyword = string.Empty;
-            string _firstFiftywordAbove = string.Empty;
-            Dictionary<string, int> _words = new Dictionary<string, int>(); 
+            rTxtWords.Text = "";
+            lblTime.Text = "";
 
+            int _wordsCount = 0;
+            int _wordsLength = 0;
+            
+            string _words = string.Empty;
             try
             {
                 if (!string.IsNullOrEmpty(_filePath))
                 {
-                    _file = new FileController(_filePath);
-
-                    _watch.Start();
-                    await Task.Run(() =>
+                    var stringData = File.ReadAllLines(_filePath);
+                    if ((Int32.TryParse(txtWordsCount.Text, out _wordsCount)) && (Int32.TryParse(txtWordsLength.Text, out _wordsLength)))
                     {
-                        _words = _file.CountWords(_file._words);
+                        _watch.Restart(); // Start the counter from where it stopped
 
-                    });
-
-                    _watch.Stop();
-                    MessageBox.Show($"Execution Time: {_watch.ElapsedMilliseconds} ms for counting words");
-                    _watch.Reset();
-
-
-
-
-                    
-                    //Getting the top 50
-                    _firstFitywatch.Start();
-                    await Task.Run(() =>
-                    {
-                        var _firstFifty = _file.GetSpecifiedNumberOfbjects(_words, 50);
-                        foreach (var item in _firstFifty)
+                        await Task.Run(() =>
                         {
-                            _firstFiftyword += item + "\n";
-                        }
+                            var data =_textProcessor.ProcessData(stringData, _wordsCount, _wordsLength);
+                            
+                            foreach (var item in data)
+                            {
+                                _words += item + "\n";
+                            }
+                        });
+                        
+                        _watch.Stop();
+                        lblTime.Text = _watch.ElapsedMilliseconds.ToString();
+                        _watch.Reset();
 
-                    });
-                    richTextBox2.Text = _firstFiftyword;
-
-                    _firstFitywatch.Stop();
-
-                    label5.Show();
-                    label6.Text = "" + _firstFitywatch.ElapsedMilliseconds + " ms";
-                    _firstFitywatch.Reset();
-
-
-                    //getting top 50 above the lenght of 6
-                    _firstFiftyAbovewatch.Start();
-
-                    await Task.Run(() =>
+                        rTxtWords.Text = _words;
+                    }
+                    else if ((Int32.TryParse(txtWordsCount.Text, out _wordsCount)) && (!Int32.TryParse(txtWordsLength.Text, out _wordsLength)))
                     {
-                        var _fisrtFityAboveSix = _file.GetSpecifiedNumberOfbjects(_words, 50, 6);
-                        foreach (var item in _fisrtFityAboveSix)
+                        _watch.Restart(); // Start the counter from where it stopped
+
+                        await Task.Run(() =>
                         {
-                            _firstFiftywordAbove += item + "\n";
-                        }
+                            var data = _textProcessor.ProcessData(stringData, _wordsCount);
 
-                    }); 
+                            foreach (var item in data)
+                            {
+                                _words += item + "\n";
+                            }
+                          
+                        });
 
-                    _firstFiftyAbovewatch.Stop();
-                    label7.Show();
-                    label8.Text = "" + _firstFiftyAbovewatch.ElapsedMilliseconds + " ms";
+                        _watch.Stop();
+                        lblTime.Text = _watch.ElapsedMilliseconds.ToString();
+                        _watch.Reset();
 
-                    _firstFiftyAbovewatch.Reset();
-                    richTextBox3.Text = _firstFiftywordAbove;
+                        rTxtWords.Text = _words;
+                    }
+                    else
+                    {
+                        MessageBox.Show(" Please populate the valid words count and words length", "File Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
@@ -161,7 +148,6 @@ namespace ComCorpAssessment
             {
                 MessageBox.Show(ex.Message, "File Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
             }
-
         }
     }
 }

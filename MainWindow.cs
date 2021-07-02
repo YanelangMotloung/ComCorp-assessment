@@ -16,7 +16,6 @@ namespace ComCorpAssessment
     public partial class MainWindow : Form
     {
         string _filePath = string.Empty;
-        int _linesCount { get; set; }
         FileController _file { get; set; }
         Stopwatch _watch = new Stopwatch();
         Stopwatch _firstFitywatch = new Stopwatch();
@@ -80,22 +79,11 @@ namespace ComCorpAssessment
         {
             //NB// This is just for Displaying on the user side, no PROCESSING
             string content = File.ReadAllText(aPath);
-            _linesCount = content.Length;
             richTextBox1.Text = content;
         }
 
         private async void btnProcess(object sender, EventArgs e)
         {
-            
-
-                //await Task.Run(() =>
-                //{
-                //    for (var i = 0; i <= 1000000; i++)
-                //    {
-                //        UpdateUI(i);
-                //        count = i;
-                //    }
-                //});
             
             string _firstFiftyword = string.Empty;
             string _firstFiftywordAbove = string.Empty;
@@ -105,7 +93,7 @@ namespace ComCorpAssessment
             {
                 if (!string.IsNullOrEmpty(_filePath))
                 {
-                    _file = new FileController(_filePath,_linesCount);
+                    _file = new FileController(_filePath);
 
                     _watch.Start();
                     await Task.Run(() =>
@@ -115,8 +103,8 @@ namespace ComCorpAssessment
                     });
 
                     _watch.Stop();
-
                     MessageBox.Show($"Execution Time: {_watch.ElapsedMilliseconds} ms for counting words");
+                    _watch.Reset();
 
 
 
@@ -139,13 +127,7 @@ namespace ComCorpAssessment
 
                     label5.Show();
                     label6.Text = "" + _firstFitywatch.ElapsedMilliseconds + " ms";
-
-                    
-
-
-
-
-
+                    _firstFitywatch.Reset();
 
 
                     //getting top 50 above the lenght of 6
@@ -165,14 +147,12 @@ namespace ComCorpAssessment
                     label7.Show();
                     label8.Text = "" + _firstFiftyAbovewatch.ElapsedMilliseconds + " ms";
 
-                    
+                    _firstFiftyAbovewatch.Reset();
                     richTextBox3.Text = _firstFiftywordAbove;
                 }
                 else
                 {
                     MessageBox.Show(" The file path is empty", "File Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-
-
                 }
 
 

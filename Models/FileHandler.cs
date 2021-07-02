@@ -9,7 +9,6 @@ namespace ComCorpAssessment.Models
     class FileHandler
     {
         public List<string> WordsList { get; set; }
-        string[] lines { get; set; }
         ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
@@ -51,7 +50,7 @@ namespace ComCorpAssessment.Models
         //
         //   T:System.IO.IOException:
         //     An I/O error occurred while opening the file.
-        public FileHandler(string filePath, int _linescount)
+        public FileHandler(string filePath)
         {
             try
             {
@@ -59,13 +58,10 @@ namespace ComCorpAssessment.Models
                 {
                     _log.Error("The provided filepath is empty");
                     throw new NullReferenceException(" The provided filepath is empty");
-
                 }
 
                 
-                lines = new string[_linescount];
-                
-                lines = File.ReadAllLines(filePath);
+                string[] lines = File.ReadAllLines(filePath);
 
                 if (lines.Length > 0)
                 {

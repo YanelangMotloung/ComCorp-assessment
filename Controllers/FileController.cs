@@ -53,11 +53,11 @@ namespace ComCorpAssessment.Controllers
         //
         //   T:System.IO.IOException:
         //     An I/O error occurred while opening the file.
-        internal FileController(string filePath, int _linesCount)
+        internal FileController(string filePath)
         {
             try
             {
-                _fileHandler = new FileHandler(filePath,_linesCount);
+                _fileHandler = new FileHandler(filePath);
                 _words = _fileHandler.WordsList;
             }
             catch (Exception ex)
